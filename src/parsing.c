@@ -11,7 +11,7 @@ static char	*parse_env(char *cmd_line, int start_idx, int *idx)
 		exit(1);
 	(*idx)++;
 	start_idx = *idx;
-	while (cmd_line[*idx] && !ft_isspace(cmd_line[*idx]))
+	while (cmd_line[*idx] && !ft_isspace(cmd_line[*idx]) && cmd_line[*idx] != '\'' && cmd_line[*idx] != '\"')
 		(*idx)++;
 	temp = ft_strdup_range(cmd_line, start_idx, *idx);
 	join_line = find_env_by_key(temp, FALSE);
