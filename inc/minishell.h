@@ -16,3 +16,9 @@ t_env   g_env;
 void	init_env(char **envv);
 void	add_env(char *env_info);
 char	*find_env_by_key(char *key, int is_new);
+char	*parse_home_path(char *path, int is_tilde);
+void	display_prompt_msg(void);
+char	*parse_home_path(char *path, int is_tilde);
+char	*ft_pathjoin(char *p1, char *p2);
+
+

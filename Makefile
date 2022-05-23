@@ -12,7 +12,7 @@ LIBFT = ./libft/libft.a
 LIBINC = ./libft/
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
 DEBUG = -g
 

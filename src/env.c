@@ -1,28 +1,13 @@
 #include "minishell.h"
 
-void	init_env(char **envv)
+static int  get_num_of_str(char **strs)
 {
-	int idx;
-	char	**cur_env_pair;
+	int len;
 
-	g_env.num_of_env = get_num_of_str(envv);
-	g_env.size = g_env.num_of_env * 2;
-	g_env.keys = malloc(sizeof(char *) * (g_env.size + 1));
-	g_env.values = malloc(sizeof(char *) * (g_env.size + 1));
-	g_env.envs = malloc(sizeof(char *) * (g_env.size + 1));
-	idx = 0;
-	while (idx < g_env.num_of_env)
-	{
-		cur_env_pair = ft_split(envv[idx], '=');
-		if (cur_env_pair == NULL || get_num_of_str(cur_env_pair) != 3)
-			exit(1);
-		g_env.keys[idx] = cur_env_pair[0];
-		g_env.values[idx] = cur_env_pair[1];
-		g_env.envs[idx] = envv[idx];
-		idx++;
-	}
-	g_env.keys[idx] = NULL;
-	g_env.values[idx] = NULL;
+	len = 0;
+	while(strs[len])
+		len++;
+	return (len);
 }
 
 static void	realloc_g_env()
@@ -51,6 +36,36 @@ static void	realloc_g_env()
 	g_env.envs = new_envs;
 }
 
+void	init_env(char **envv)
+{
+	int idx;
+	char	**cur_env_pair;
+
+	g_env.num_of_env = get_num_of_str(envv);
+	g_env.size = g_env.num_of_env * 2;
+	g_env.keys = malloc(sizeof(char *) * (g_env.size + 1));
+	g_env.values = malloc(sizeof(char *) * (g_env.size + 1));
+	g_env.envs = malloc(sizeof(char *) * (g_env.size + 1));
+	idx = 0;
+	while (idx < g_env.num_of_env)
+	{
+		cur_env_pair = ft_split(envv[idx], '=');
+		if (cur_env_pair == NULL || get_num_of_str(cur_env_pair) != 2)
+		{
+			ft_putnbr_fd(get_num_of_str(cur_env_pair), 1);
+			exit(1);
+		}
+		g_env.keys[idx] = cur_env_pair[0];
+		g_env.values[idx] = cur_env_pair[1];
+		g_env.envs[idx] = envv[idx];
+		idx++;
+	}
+	g_env.keys[idx] = NULL;
+	g_env.values[idx] = NULL;
+}
+
+
+
 void	add_env(char *env_info)
 {
 	int		idx;
@@ -62,7 +77,10 @@ void	add_env(char *env_info)
 		realloc_g_env();
 	cur_env_pair = ft_split(env_info, '=');
 	if (cur_env_pair == NULL || get_num_of_str(cur_env_pair) != 3)
+	{
+		ft_putstr_fd("!\n", 1);
 		exit(1);
+	}
 	g_env.keys[idx] = cur_env_pair[0];
 	g_env.values[idx] = cur_env_pair[1];
 	g_env.envs[idx] = env_info;
@@ -71,15 +89,7 @@ void	add_env(char *env_info)
 	g_env.envs[idx + 1] = NULL;
 }
 
-static int  get_num_of_str(char **strs)
-{
-	int len;
 
-	len = 0;
-	while(strs[len])
-		len++;
-	return (len);
-}
 
 char	*find_env_by_key(char *key, int is_new)
 {

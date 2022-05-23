@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strstartwith.c                                  :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youngmki <youngmki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 20:14:28 by youngmki          #+#    #+#             */
-/*   Updated: 2022/05/23 20:14:51 by youngmki         ###   ########.fr       */
+/*   Created: 2022/05/24 02:09:36 by youngmki          #+#    #+#             */
+/*   Updated: 2022/05/24 02:09:42 by youngmki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strstartswith(char *s1, char *s2)
+int		ft_strcmp(const char *s1, const char *s2)
 {
-	int	i;
+	int		i;
 
-	i = -1;
-	while (s2[++i])
-		if (s1[i] != s2[i])
-			return (0);
-	return (1);
+	i = 0;
+	while (*(s1 + i) && *(s1 + i) == *(s2 + i))
+		i++;
+	return (*((unsigned char *)s1 + i) - *((unsigned char *)s2 + i));
 }
