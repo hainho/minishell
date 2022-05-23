@@ -21,6 +21,7 @@ static char	*parse_env(char *cmd_line, int start_idx, int *idx)
 	free(parsed_line);
 	free(join_line);
 	parsed_line = temp;
+	(*idx)--;
 	return (parsed_line);
 }
 
