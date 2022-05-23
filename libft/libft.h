@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youngmki <youngmki@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: iha <iha@student.42.kr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 00:03:13 by iha               #+#    #+#             */
-/*   Updated: 2022/05/24 03:56:45 by youngmki         ###   ########.fr       */
+/*   Updated: 2022/05/24 05:01:20 by iha              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int					ft_isalnum(int c);
 int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isprint(int c);
+int					ft_isspace(const char c);
 void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -69,7 +70,6 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst,
 						void *(*f)(void *), void (*del)(void *));
-
 
 void				*ft_malloc(size_t size);
 int					ft_strstartswith(char *s1, char *s2);

@@ -24,6 +24,7 @@ FILES = ft_memset \
 		ft_isalnum \
 		ft_isascii \
 		ft_isprint \
+		ft_isspace \
 		ft_toupper \
 		ft_tolower \
 		ft_calloc \
