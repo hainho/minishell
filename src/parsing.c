@@ -1,129 +1,107 @@
 #include "minishell.h"
 
-void parsing(char **input)
+char	*parse_cmd_line(char *cmd_line)
 {
-    int     temp;
-    char    buf;
-    int     idx;
-    int     cur_size;
-
-    *input = (char *)malloc(sizeof(char) * 2);
-    if (*input == NULL)
-        exit(1);
-    cur_size = 1;
-    idx = 0;
-    while((temp = read(0, &buf, 1)) && buf != '\n')
-    {
-        *input[idx++] = buf;
-        *input = ft_realloc(*input, cur_size, cur_size+1);
-        cur_size++;
-    }
-    *input[idx] = '\0';
-    if (temp != 0)
-    {
-        free(*input);
-        exit(0);
-    }
-    if ((ft_strchr(*input, '$') != NULL) || (ft_strchr(*input, '~') != NULL))
-		*input = parse_input(*input);
-}
-
-char    *parsing_input(char *input)
-{
-    int     idx;
-	char	*key;
+	int     idx;
+	int		start_idx;
+	char	*parsed_line;
+	char	*join_line;
 	char	*temp;
-    char    *parsed_input;
 
-    idx = -1;
-    parsed_input = malloc(sizeof(char));
-	parsed_input[0] = 0;
-    if (parsed_input == NULL)
-        exit(1);
-    while (input[++idx])
-    {
-        if (input[idx] == '$' && input[idx + 1])
-            temp = ft_strjoin(parsed_input, parsing_env(input, &idx));
-		else if (input[idx] == '~')
-			temp = ft_strjoin(parsed_input, parse_home_path(input, 1));
+	parsed_line = (char *)malloc(sizeof(char));
+	parsed_line[0] = 0;
+	idx = -1;
+	start_idx = 0;
+	while (cmd_line[++idx])
+	{
+		if (cmd_line[idx] == '$')
+			join_line = parse_env(cmd_line, start_idx, &idx);
+		else if (cmd_line[idx] == '\'')
+			join_line = parse_quote(cmd_line, start_idx, &idx);
+		else if (cmd_line[idx] == '\"')
+			join_line = parse_double_quote(cmd_line, start_idx, &idx);
 		else
-			temp = ft_strjoin(parsed_input, input[idx]);
-		free(parsed_input);
-		parsed_input = temp;
-    }
-	free(input);
-	return (parsed_input);
+			continue;
+		temp = ft_strjoin(parsed_line, join_line);
+		free(parsed_line);
+		free(join_line);
+		parsed_line = temp;
+		start_idx = idx + 1;
+	}
+	return (parsed_line);
 }
 
-char    *parsing_env(char *input, int *idx)
+static char	*parse_env(char *cmd_line, int start_idx, int *idx)
 {
-    char    *env_key;
-    char    *env_value;
+	char	*parsed_line;
+	char	*join_line;
+	char	*temp;
 
-    env_key = malloc(sizeof(char));
-    if (env_key == NULL)
-        exit(1);
-	env_key[0] = 0;
+	parsed_line = ft_strdup_range(cmd_line, start_idx, *idx);
+	if (parsed_line == NULL)
+		exit(1);
 	(*idx)++;
-    while (input[*idx] && !ft_isspace(input[*idx]))
-        env_key = ft_strjoin(env_key, input[(*idx)++]);
-    env_value = find_env_by_key(env_key, FALSE);
-	if (env_value == NULL)
-		return ("");
-	return (env_value);
+	start_idx = *idx;
+	while (cmd_line[*idx] && !ft_isspace(cmd_line[*idx]))
+		(*idx)++;
+	temp = ft_strdup_range(cmd_line, start_idx, *idx);
+	join_line = find_env_by_key(temp, FALSE);
+	temp = ft_strjoin(parsed_line, join_line);
+	free(parsed_line);
+	free(join_line);
+	parsed_line = temp;
+	return (parsed_line);
 }
 
-static char		*parse_input(char *input)
+static char	*parse_quote(char *cmd_line, int start_idx, int *idx)
 {
-	int		i;
-	char	*new;
+	char	*parsed_line;
+	char	*join_line;
+	char	*temp;
 
-	i = -1;
-	new = ft_strnew(1);
-	while (input[++i])
-	{
-		if (input[i] == '$' && input[i + 1])
-		{
-			new = ft_strjoincl(new, parse_env_var(input, i + 1), 0);
-			while (input[i + 1] && !IS_SPACE(input[i + 1]) &&
-				input[i + 1] != '$')
-				i++;
-		}
-		else if (((i != 0 && IS_SPACE(input[i - 1])) || i == 0) &&
-			input[i] == '~')
-		{
-			new = ft_strjoincl(new, parse_home_path(input + i, 1), 1);
-			i += ft_strlen(input + i) - 1;
-		}
-		else
-			new = ft_strjoinchcl(new, input[i]);
-	}
-	free(input);
-	return (new);
+	parsed_line = ft_strdup_range(cmd_line, start_idx, *idx);
+	if (parsed_line == NULL)
+		exit(1);
+	(*idx)++;
+	start_idx = *idx;
+	while (cmd_line[*idx] && cmd_line[*idx] == '\'')
+		(*idx)++;
+	join_line = ft_strdup_range(cmd_line, start_idx, *idx);
+	temp = ft_strjoin(parsed_line, join_line);
+	free(parsed_line);
+	free(join_line);
+	parsed_line = temp;
+	return (parsed_line);
 }
 
-static void		get_input(char **input)
+static char	*parse_double_quote(char *cmd_line, int start_idx, int *idx)
 {
-	int		ret;
-	char	buf;
-	int		i;
-	int		count;
+	char	*parsed_line;
+	char	*join_line;
+	char	*temp;
 
-	*input = ft_strnew(1);
-	count = 1;
-	i = 0;
-	while ((ret = read(0, &buf, 1)) && buf != '\n')
+	parsed_line = ft_strdup_range(cmd_line, start_idx, *idx);
+	if (parsed_line == NULL)
+		exit(1);
+	(*idx)++;
+	start_idx = *idx;
+	while (cmd_line[*idx] && cmd_line[*idx] == '\"')
 	{
-		*(*input + i++) = buf;
-		*input = ft_realloc(*input, count, count + 1);
-		count++;
+		if (cmd_line[*idx] == '$')
+		{
+			join_line = parse_env(cmd_line, start_idx, idx);
+			temp = ft_strjoin(parsed_line, join_line);
+			free(parsed_line);
+			free(join_line);
+			parsed_line = temp;
+			start_idx = (*idx) + 1;
+		}
+		(*idx)++;
 	}
-	*(*input + i) = '\0';
-	if (!ret)
-	{
-		free(*input);
-		exit_shell();
-	}
-	if ((ft_strchr(*input, '$') != NULL) || (ft_strchr(*input, '~') != NULL))
-		*input = parse_input(*input);
+	join_line = ft_strdup_range(cmd_line, start_idx, *idx);
+	temp = ft_strjoin(parsed_line, join_line);
+	free(parsed_line);
+	free(join_line);
+	parsed_line = temp;
+	return (parsed_line);
 }
