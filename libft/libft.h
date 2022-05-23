@@ -6,7 +6,7 @@
 /*   By: youngmki <youngmki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 00:03:13 by iha               #+#    #+#             */
-/*   Updated: 2022/05/23 19:05:19 by youngmki         ###   ########.fr       */
+/*   Updated: 2022/05/24 00:22:09 by youngmki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst,
 						void *(*f)(void *), void (*del)(void *));
 
+
 void				*ft_malloc(size_t size);
+int					ft_strstartswith(char *s1, char *s2);
+int					ft_strendswith(char *s1, char *s2)
 
 #endif

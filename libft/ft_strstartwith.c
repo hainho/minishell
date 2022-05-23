@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_malloc.c                                        :+:      :+:    :+:   */
+/*   ft_strstartwith.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youngmki <youngmki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 18:59:46 by youngmki          #+#    #+#             */
-/*   Updated: 2022/05/23 20:21:12 by youngmki         ###   ########.fr       */
+/*   Created: 2022/05/23 20:14:28 by youngmki          #+#    #+#             */
+/*   Updated: 2022/05/23 20:14:51 by youngmki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_malloc(size_t size)
+int	ft_strstartswith(char *s1, char *s2)
 {
-	void	*mem;
+	int	i;
 
-	mem = malloc(size);
-	if (!mem)
-		return (NULL);
-	ft_bzero(mem, size);
-	return (mem);
+	i = -1;
+	while (s2[++i])
+		if (s1[i] != s2[i])
+			return (0);
+	return (1);
 }
