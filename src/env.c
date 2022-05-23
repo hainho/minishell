@@ -79,27 +79,37 @@ void	add_env(char *env_info)
 	int		idx;
 	char	**cur_env_pair;
 
-	idx = g_env.num_of_env;
-	g_env.num_of_env++;
-	if (g_env.num_of_env == g_env.size)
-		realloc_g_env();
 	cur_env_pair = ft_split(env_info, '=');
 	if (cur_env_pair == NULL || get_num_of_str(cur_env_pair) != 3)
-	{
-		ft_putstr_fd("!\n", 1);
 		exit(1);
+	idx = find_idx_by_key(cur_env_pair[0]);
+	if (idx == -1)
+	{
+		idx = g_env.num_of_env;
+		g_env.num_of_env++;
+		if (g_env.num_of_env == g_env.size)
+			realloc_g_env();
+		g_env.keys[idx + 1] = NULL;
+		g_env.values[idx + 1] = NULL;
+		g_env.envs[idx + 1] = NULL;
 	}
-	g_env.keys[idx] = cur_env_pair[0];
+	free(g_env.values[idx]);
+	free(g_env.envs[idx]);
 	g_env.values[idx] = cur_env_pair[1];
 	g_env.envs[idx] = env_info;
-	g_env.keys[idx + 1] = NULL;
-	g_env.values[idx + 1] = NULL;
-	g_env.envs[idx + 1] = NULL;
 }
 
+static int  get_num_of_str(char **strs)
+{
+	int len;
 
+	len = 0;
+	while(strs[len])
+		len++;
+	return (len);
+}
 
-char	*find_env_by_key(char *key, int is_new)
+static int	find_idx_by_key(char *key)
 {
 	int	idx;
 	int	cur_key_len;
@@ -109,14 +119,20 @@ char	*find_env_by_key(char *key, int is_new)
 	{
 		cur_key_len = ft_strlen(key);
 		if (ft_strncmp(g_env.keys[idx], key, cur_key_len) == 0)
-		{
-			if (is_new == TRUE)
-				return ft_strdup(g_env.values[idx]);
-			else
-				return g_env.values[idx];
-		}
+			return (idx);
 		idx++;
 	}
-	return (NULL);
+	return (-1);
 }
 
+char	*find_env_by_key(char *key, int is_new)
+{
+	int	idx;
+
+	idx = find_idx_by_key(key);
+	if (idx == -1)
+		return (NULL);
+	if (is_new)
+		return (ft_strdup(g_env.keys[idx]));
+	return (g_env.keys[idx]);
+}
