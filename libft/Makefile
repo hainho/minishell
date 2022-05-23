@@ -38,6 +38,11 @@ FILES = ft_memset \
 		ft_putstr_fd \
 		ft_putendl_fd \
 		ft_putnbr_fd \
+		ft_strstartswith \
+		ft_strendswith \
+		ft_strcmp \
+		ft_strjoin_range \
+		ft_strdup_range \
 
 FILES_B = 	ft_lstnew \
 	  		ft_lstadd_front \

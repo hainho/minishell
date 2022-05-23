@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strendswith.c                                   :+:      :+:    :+:   */
+/*   ft_strstartswith.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youngmki <youngmki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/24 00:21:16 by youngmki          #+#    #+#             */
-/*   Updated: 2022/05/24 02:10:34 by youngmki         ###   ########.fr       */
+/*   Created: 2022/05/23 20:14:28 by youngmki          #+#    #+#             */
+/*   Updated: 2022/05/24 02:07:06 by youngmki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strendswith(char *s1, char *s2)
+int	ft_strstartswith(char *s1, char *s2)
 {
-	int		i;
+	int	i;
 
 	i = -1;
-	while (s1[++i])
-		if (s1[i] == s2[0])
-			if (ft_strcmp(s1 + i, s2) == 0)
-				return (1);
-	return (0);
+	while (s2[++i])
+		if (s1[i] != s2[i])
+			return (0);
+	return (1);
 }
