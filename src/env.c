@@ -50,21 +50,29 @@ void	init_env(char **envv)
 	while (idx < g_env.num_of_env)
 	{
 		cur_env_pair = ft_split(envv[idx], '=');
-		if (cur_env_pair == NULL || get_num_of_str(cur_env_pair) != 2)
-		{
-			ft_putnbr_fd(get_num_of_str(cur_env_pair), 1);
+		if (cur_env_pair == NULL)
 			exit(1);
-		}
+		if (get_num_of_str(cur_env_pair) == 1)
+			g_env.values[idx] = "";
+		else
+			g_env.values[idx] = cur_env_pair[1];
 		g_env.keys[idx] = cur_env_pair[0];
-		g_env.values[idx] = cur_env_pair[1];
 		g_env.envs[idx] = envv[idx];
 		idx++;
 	}
 	g_env.keys[idx] = NULL;
 	g_env.values[idx] = NULL;
+	g_env.envs[idx] = NULL;
 }
 
+void	print_envs()
+{
+	int	idx;
 
+	idx = 0;
+	while (g_env.envs[idx])
+		printf("%s\n", g_env.envs[idx++]);
+}
 
 void	add_env(char *env_info)
 {

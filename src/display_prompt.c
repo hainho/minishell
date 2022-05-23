@@ -6,7 +6,7 @@
 /*   By: youngmki <youngmki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 20:22:47 by youngmki          #+#    #+#             */
-/*   Updated: 2022/05/24 02:21:34 by youngmki         ###   ########.fr       */
+/*   Updated: 2022/05/24 03:02:14 by youngmki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,26 @@ char	*parse_home_path(char *path, int is_tilde)
 	if (!path)
 		return (NULL);
 	home_path = find_env_by_key("HOME", TRUE);
-	if (is_tilde || !ft_strstartswith(path, "~"))
-		return (ft_strdup(path));
-	if (!is_tilde || !ft_strstartswith(path, home_path))
-		return (ft_strdup(path));
 	if (is_tilde)
+	{	
+		if (!ft_strstartswith(path, "~"))
+			return (ft_strdup(path));
+	}
+	else
+	{
+		if (!ft_strstartswith(path, home_path))
+			return (ft_strdup(path));
+	}
+	if (is_tilde)
+	{
 		new = ft_pathjoin(home_path, path + 1);
+	}
 	else
 	{
 		if (*(path + ft_strlen(home_path)) == '\0')
+		{
 			new = ft_strdup("~");
+		}
 		else
 			new = ft_pathjoin("~", path + ft_strlen(home_path));
 	}
@@ -70,7 +80,7 @@ void	display_prompt_msg()
 
 	cwd = getcwd(buff, 1024);
 	parsed_cwd = parse_home_path(cwd, 0);
-	ft_putstr_fd(cwd, 1);
+	ft_putstr_fd(parsed_cwd, 0);
 	ft_putstr_fd("$ ", 1);
 	free(parsed_cwd);
 }

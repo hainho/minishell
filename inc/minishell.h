@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "stdio.h"
 
 # define TRUE 1
 # define FALSE 0
@@ -20,5 +21,6 @@ char	*parse_home_path(char *path, int is_tilde);
 void	display_prompt_msg(void);
 char	*parse_home_path(char *path, int is_tilde);
 char	*ft_pathjoin(char *p1, char *p2);
+void	print_envs();
 
 
