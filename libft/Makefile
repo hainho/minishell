@@ -42,6 +42,7 @@ FILES = ft_memset \
 		ft_strendswith \
 		ft_strcmp \
 		ft_strjoin_range \
+		ft_strdup_range \
 
 FILES_B = 	ft_lstnew \
 	  		ft_lstadd_front \

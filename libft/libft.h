@@ -6,7 +6,7 @@
 /*   By: youngmki <youngmki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 00:03:13 by iha               #+#    #+#             */
-/*   Updated: 2022/05/24 03:31:08 by youngmki         ###   ########.fr       */
+/*   Updated: 2022/05/24 03:56:45 by youngmki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ int					ft_strstartswith(char *s1, char *s2);
 int					ft_strendswith(char *s1, char *s2);
 int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strjoin_range(char const *s1, char const *s2, int start, int end);
+char				*ft_strdup_range(const char *s1, int start, int end);
 
 #endif
