@@ -1,12 +1,44 @@
-CC=gcc
-CFLAGS=-g -O
-OBJS=main.o smallsh.o
-TARGET=main
+NAME = minishell
 
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+SRCDIR = ./src/
+SRCNAMES = $(shell ls $(SRCDIR) | grep -E ".+\.c")
+SRC = $(addprefix $(SRCDIR), $(SRCNAMES))
+INC = ./inc/
+BUILDDIR = ./build/
+BUILDOBJS = $(addprefix $(BUILDDIR), $(SRCNAMES:.c=.o))
 
-main.o: smallsh.h main.c
+LIBDIR = ./libft/
+LIBFT = ./libft/libft.a
+LIBINC = ./libft/
+
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra
+
+DEBUG = -g
+
+all: $(BUILDDIR) $(LIBFT) $(NAME)
+
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
+
+$(BUILDDIR)%.o:$(SRCDIR)%.c
+	$(CC) $(CFLAGS) -I$(LIBINC) -I$(INC) -o $@ -c $<
+
+$(NAME): $(BUILDOBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(BUILDOBJS) $(LIBFT)
+
+$(LIBFT):
+	make -C $(LIBDIR)
 
 clean:
-	rm -f *.o main
+	rm -rf $(BUILDDIR)
+	make -C $(LIBDIR) clean
+
+# Getting rid of the project file
+fclean: clean
+	rm -rf $(NAME)
+	make -C $(LIBDIR) fclean
+
+re: fclean all
+
+.PHONY: all fclean clean re
