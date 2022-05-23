@@ -36,7 +36,7 @@ static char	*parse_quote(char *cmd_line, int start_idx, int *idx)
 		exit(1);
 	(*idx)++;
 	start_idx = *idx;
-	while (cmd_line[*idx] && cmd_line[*idx] == '\'')
+	while (cmd_line[*idx] && cmd_line[*idx] != '\'')
 		(*idx)++;
 	join_line = ft_strdup_range(cmd_line, start_idx, *idx);
 	temp = ft_strjoin(parsed_line, join_line);
