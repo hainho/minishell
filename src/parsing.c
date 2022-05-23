@@ -57,7 +57,7 @@ static char	*parse_double_quote(char *cmd_line, int start_idx, int *idx)
 		exit(1);
 	(*idx)++;
 	start_idx = *idx;
-	while (cmd_line[*idx] && cmd_line[*idx] == '\"')
+	while (cmd_line[*idx] && cmd_line[*idx] != '\"')
 	{
 		if (cmd_line[*idx] == '$')
 		{
