@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iha <iha@student.42.kr>                    +#+  +:+       +#+        */
+/*   By: youngmki <youngmki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 00:03:13 by iha               #+#    #+#             */
-/*   Updated: 2021/07/28 16:38:21 by iha              ###   ########.fr       */
+/*   Updated: 2022/05/23 19:05:19 by youngmki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst,
 						void *(*f)(void *), void (*del)(void *));
+
+void				*ft_malloc(size_t size);
 
 #endif
