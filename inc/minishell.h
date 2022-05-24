@@ -27,5 +27,6 @@ char	*parse_home_path(char *path, int is_tilde);
 char	*ft_pathjoin(char *p1, char *p2);
 void	print_envs();
 char	*parse_cmd_line(char *cmd_line);
+void	echo(char **strs);
 
 #endif
