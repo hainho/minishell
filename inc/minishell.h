@@ -30,5 +30,6 @@ void	print_envs();
 char	*parse_cmd_line(char *cmd_line);
 void	echo(char **strs);
 void	pwd();
+void    cd(char *dir);
 
 #endif
