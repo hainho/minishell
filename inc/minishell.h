@@ -7,6 +7,7 @@
 
 # define TRUE 1
 # define FALSE 0
+# define PATH_MAX 1024
 typedef struct s_env
 {
 	int		size;
@@ -28,5 +29,6 @@ char	*ft_pathjoin(char *p1, char *p2);
 void	print_envs();
 char	*parse_cmd_line(char *cmd_line);
 void	echo(char **strs);
+void	pwd();
 
 #endif
