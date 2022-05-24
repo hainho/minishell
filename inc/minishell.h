@@ -32,4 +32,6 @@ void	echo(char **strs);
 void	pwd();
 void    cd(char *dir);
 void    export(char *env);
+void	remove_env(char *key);
+void    unset(char *key);
 #endif

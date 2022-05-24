@@ -127,3 +127,23 @@ char	*find_env_by_key(char *key, int is_new)
 		return (ft_strdup(g_env.values[idx]));
 	return (g_env.values[idx]);
 }
+
+void	remove_env(char *key)
+{
+	int	idx;
+
+	idx = find_idx_by_key(key);
+	if (idx == -1)
+		return ;
+	while (g_env.keys[idx + 1])
+	{
+		g_env.keys[idx] = g_env.keys[idx + 1];
+		g_env.values[idx] = g_env.values[idx + 1];
+		g_env.envs[idx] = g_env.envs[idx + 1];
+		idx++;
+	}
+	g_env.keys[idx] = NULL;
+	g_env.values[idx] = NULL;
+	g_env.envs[idx] = NULL;
+	g_env.num_of_env--;
+}
