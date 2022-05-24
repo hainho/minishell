@@ -96,7 +96,7 @@ void	add_env(char *env_info)
 	char	**cur_env_pair;
 
 	cur_env_pair = ft_split(env_info, '=');
-	if (cur_env_pair == NULL || get_num_of_str(cur_env_pair) != 3)
+	if (cur_env_pair == NULL)
 		exit(1);
 	idx = find_idx_by_key(cur_env_pair[0]);
 	if (idx == -1)
@@ -109,9 +109,10 @@ void	add_env(char *env_info)
 		g_env.values[idx + 1] = NULL;
 		g_env.envs[idx + 1] = NULL;
 	}
-	free(g_env.values[idx]);
-	free(g_env.envs[idx]);
-	g_env.values[idx] = cur_env_pair[1];
+	if (get_num_of_str(cur_env_pair) == 1)
+			g_env.values[idx] = "";
+	else
+		g_env.values[idx] = cur_env_pair[1];
 	g_env.envs[idx] = env_info;
 }
 
@@ -125,4 +126,24 @@ char	*find_env_by_key(char *key, int is_new)
 	if (is_new)
 		return (ft_strdup(g_env.values[idx]));
 	return (g_env.values[idx]);
+}
+
+void	remove_env(char *key)
+{
+	int	idx;
+
+	idx = find_idx_by_key(key);
+	if (idx == -1)
+		return ;
+	while (g_env.keys[idx + 1])
+	{
+		g_env.keys[idx] = g_env.keys[idx + 1];
+		g_env.values[idx] = g_env.values[idx + 1];
+		g_env.envs[idx] = g_env.envs[idx + 1];
+		idx++;
+	}
+	g_env.keys[idx] = NULL;
+	g_env.values[idx] = NULL;
+	g_env.envs[idx] = NULL;
+	g_env.num_of_env--;
 }
